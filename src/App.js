@@ -19,15 +19,17 @@ const App = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
+  // Function to add a new todo
   const addTodo = (text) => {
     const newTodo = {
-      id: Date.now(),
+      id: Date.now(), // Unique ID based on current timestamp
       text,
       completed: false,
     };
-    setTodos([...todos, newTodo]);
+    setTodos([...todos, newTodo]); // Add new todo to the list
   };
 
+  // Function to toggle the completion status of a todo
   const toggleComplete = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -36,10 +38,12 @@ const App = () => {
     );
   };
 
+  // Function to delete a todo
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  // Filter todos based on the selected filter
   const filteredTodos = todos.filter((todo) => {
     if (filter === "completed") return todo.completed;
     if (filter === "pending") return !todo.completed;
@@ -47,17 +51,21 @@ const App = () => {
   });
 
   return (
+    // Main container for the app
     <div className="container">
       <div className="heading">
         <h1>To-Do List</h1>
+        {/* Filter component to set the filter */}
         <Filter setFilter={setFilter} />
       </div>
+      {/* Component to add a new todo */}
       <AddTodo addTodo={addTodo} />
+      {/* Conditional rendering based on the presence of todos */}
       {filteredTodos.length > 0 ? (
         <TodoList
-          todos={filteredTodos}
-          toggleComplete={toggleComplete}
-          deleteTodo={deleteTodo}
+          todos={filteredTodos} // Pass filtered todos as a prop
+          toggleComplete={toggleComplete} // Pass toggleComplete function as a prop
+          deleteTodo={deleteTodo} // Pass deleteTodo function as a prop
         />
       ) : (
         <div className="noTodos">No tasks found!</div>
